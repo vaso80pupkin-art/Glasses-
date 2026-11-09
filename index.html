@@ -180,7 +180,7 @@ function parseText(){
   const anySize=t.match(size);
   const wall=wallMatch||anySize;
   if(wall){ document.querySelector('input[value="wall"]').checked=true; toggleMode(); const length=wall[1]||wall[2], height=wall[2]||wall[3]; if(length && height){$('wallLength').value=length; $('wallHeight').value=height;} }
-  const area=t.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:кв\.?\s*м(?:етр(?:а|ов|ы)?)?|м2|м²|квадратн(?:ый|ых|ые)?\s*метр(?:а|ов|ы)?|метр(?:а|ов|ы)?\s*квадратн(?:ый|ых|ые)?)/); if(area&&!wall)$('floorArea').value=area[1];
+  const area=t.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:кв\.?\s*м(?:етр(?:а|ов|ы)?)?|м2|м²|квадрат(?:а|ов)?|квадратн(?:ый|ых|ые)?\s*метр(?:а|ов|ы)?|метр(?:а|ов|ы)?\s*квадратн(?:ый|ых|ые)?)/); if(area){document.querySelector('input[value="floor"]').checked=true;toggleMode();$('floorArea').value=area[1];}
   const w=t.match(/([0-9]+)\s*(?:окн|окон)/); const d=t.match(/([0-9]+)\s*(?:двер|дверей)/); if(w)$('windows').value=w[1]; if(d)$('doors').value=d[1];
   if(/окн/.test(t)&&!w)$('windows').value=1; if(/двер/.test(t)&&!d)$('doors').value=1;
   const windowSize=t.match(/окн[^0-9]{0,12}([0-9.]+)\s*(?:на|x|х|×)\s*([0-9.]+)/); const doorSize=t.match(/двер[^0-9]{0,12}([0-9.]+)\s*(?:на|x|х|×)\s*([0-9.]+)/);
