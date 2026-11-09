@@ -167,6 +167,16 @@ function parseText(){
   const windowSize=t.match(/окн[^0-9]{0,12}([0-9.]+)\s*(?:на|x|х|×)\s*([0-9.]+)/); const doorSize=t.match(/двер[^0-9]{0,12}([0-9.]+)\s*(?:на|x|х|×)\s*([0-9.]+)/);
   if(windowSize){$('windowPerimeter').value=(2*(Number(windowSize[1])+Number(windowSize[2]))).toFixed(2);}
   if(doorSize){$('doorPerimeter').value=(2*(Number(doorSize[1])+Number(doorSize[2]))).toFixed(2);}
+  const setService=id=>{const checkbox=document.querySelector(`[data-service="${id}"]`); if(checkbox)checkbox.checked=true;};
+  if(/произвольн/.test(t)) setService('customSplit'); else if(/разбивк/.test(t)) setService('split');
+  if(/фрез/.test(t)) setService('noProfiles');
+  if(/потол/.test(t)) setService('ceiling');
+  if(/грунтов/.test(t)) setService('primer');
+  const hasWindowSlopes=/оконн[^.!?]{0,24}откос|откос[^.!?]{0,24}оконн/.test(t);
+  const hasDoorSlopes=/дверн[^.!?]{0,24}откос|откос[^.!?]{0,24}дверн/.test(t);
+  if(hasWindowSlopes){setService(/фрез/.test(t)?'windowSlopeMill':'windowSlope');}
+  if(hasDoorSlopes){setService(/фрез/.test(t)?'doorSlopeMill':'doorSlope');}
+  if(/откос/.test(t)&&!hasWindowSlopes&&!hasDoorSlopes){setService('windowSlope');setService('doorSlope');}
   const waste=t.match(/запас\s*([0-9]+)\s*%/); const discount=t.match(/скидк[^0-9]*([0-9]+)\s*%/); if(waste){$('waste').value=Math.min(30,Number(waste[1]));} if(discount){$('discount').value=Math.min(100,Number(discount[1]));}
   updateRangeLabels(); calculate();
 }
